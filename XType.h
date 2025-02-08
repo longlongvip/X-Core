@@ -34,10 +34,20 @@ using byte = uint8_t;
     using char32 = char32_t;
     using char16 = wchar_t;
     using char8 = uint8_t;
+    using syschar = wchar_t;
 #else
 #   ifdef __LINUX__ || __APPLE__
         using char16 = char16_t;
         using char32 = char32_t;
         using char8 = uint8_t;
+        using syschar = uint8_t;
 #   endif
 #endif
+
+#define cast_to_int(v) static_cast<int>(v)
+
+template<typename T>
+inline bool is_in(const T& x, const T& a, const T& b)
+{
+    return a <= x && x <= b;
+}

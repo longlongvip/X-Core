@@ -93,6 +93,8 @@ void to_ansi(const std::wstring &in, std::string &out)
     delete[] buffer;
 }
 
+void to_utf16(const std::string &in, std::wstring &out, )
+
 void to_utf8(const wchar_t* in, char* out)
 {
     if (in == nullptr || out == nullptr)

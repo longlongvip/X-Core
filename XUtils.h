@@ -69,17 +69,6 @@ inline T x_ceil(const T& a, const T& b)
     return (a + b - 1) / b;
 }
 
-template<typename T>
-inline bool is_in(const T& x, const T& a, const T& b)
-{
-    return a <= x && x <= b;
-}
-
-inline int digit2int(char c)
-{
-    return c - '0';
-}
-
 template<typename T, typename From>
 inline T get_byte(From f, int n)
 {
