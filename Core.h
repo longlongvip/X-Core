@@ -4,4 +4,4 @@
 #include "XDef.h"
 #include "XUtils.h"
 #include "XClass.h"
-#include "XWindows.h"
+#include "XPlatform.h"

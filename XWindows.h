@@ -55,16 +55,6 @@ protected:
     HANDLE handle_;
 };
 
-int need_size_for_utf8(const wchar_t* in)
-{
-    return WideCharToMultiByte(CP_UTF8, 0, in, -1, nullptr, 0, nullptr, nullptr);
-}
-
-int need_size_for_ansi(const wchar_t* in)
-{
-    return WideCharToMultiByte(CP_ACP, 0, in, -1, nullptr, 0, nullptr, nullptr);
-}
-
 void to_utf8(const std::wstring &in, std::string &out)
 {
     if (in.empty())
@@ -93,7 +83,19 @@ void to_ansi(const std::wstring &in, std::string &out)
     delete[] buffer;
 }
 
-void to_utf16(const std::string &in, std::wstring &out, )
+void to_utf16(const std::string &in, std::wstring &out, int mode)
+{
+    if (in.empty())
+    {
+        out.clear();
+        return;
+    }
+    int size_needed = MultiByteToWideChar(mode, 0, in.c_str(), in.size(), nullptr, 0);
+    wchar_t *buffer = new wchar_t[size_needed];
+    MultiByteToWideChar(mode, 0, in.c_str(), in.size(), buffer, size_needed);
+    out = buffer;
+    delete[] buffer;
+}
 
 void to_utf8(const wchar_t* in, char* out)
 {
@@ -108,11 +110,13 @@ void to_utf8(const wchar_t* in, char* out)
     delete[] buffer;
 }
 
-void to_ansi(const wchar_t* in, char* out, int out_size)
+void to_ansi(const wchar_t* in, char* out)
 {
-    if (in == nullptr || out == nullptr || out_size < 1)
+    if (in == nullptr || out == nullptr)
     {
         return;
     }
-    WideCharToMultiByte(CP_ACP, 0, in, -1, out, out_size, nullptr, nullptr);
+    int size_needed = WideCharToMultiByte(CP_ACP, 0, in, -1, nullptr, 0, nullptr, nullptr);
+    WideCharToMultiByte(CP_ACP, 0, in, -1, out, size_needed, nullptr, nullptr);
+    return;
 }

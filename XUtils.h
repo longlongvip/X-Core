@@ -2,10 +2,10 @@
 
 #include <cstdint>
 
-constexpr uint32_t FirstByteMask = 0xff000000;
-constexpr uint32_t SecondByteMask = 0x00ff0000;
-constexpr uint32_t ThirdByteMask = 0x0000ff00;
-constexpr uint32_t FourthByteMask = 0x000000ff;
+constexpr uint32_t FirstByteMask = 0xFF000000;
+constexpr uint32_t SecondByteMask = 0x00FF0000;
+constexpr uint32_t ThirdByteMask = 0x0000FF00;
+constexpr uint32_t FourthByteMask = 0x000000FF;
 
 inline void bless_no_bugs() { }
 
@@ -61,12 +61,6 @@ template<typename T>
 inline double cast_double(T v)
 {
     return cast<double>(v);
-}
-
-template<typename T>
-inline T x_ceil(const T& a, const T& b)
-{
-    return (a + b - 1) / b;
 }
 
 template<typename T, typename From>

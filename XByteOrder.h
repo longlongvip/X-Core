@@ -1,90 +1,127 @@
 #pragma once
 
-#ifdef _WIN32
-#include <WinSock2.h>
+#include "XType.h"
 
-#ifdef _MSC_VER
-#pragma comment(lib, "Ws2_32.lib")
-#else /* mingw */
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-#define htonll(x) __builtin_bswap64(x)
-#define ntohll(x) __builtin_bswap64(x)
-#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
-#define htonll(x) x
-#define ntohll(x) x
-#else
-#error "Unsupported endian"
-#endif
-#endif
+enum class Endianness
+{
+    InValid = -1,
+    Little,
+    Big
+};
 
-inline unsigned short hton16(unsigned short v) {
-    return htons(v);
+Endianness get_endianness()
+{
+    union
+	{
+		u8 c[2];
+		u16 u;
+	} a;
+
+	a.c[1] = 0;
+	a.c[0] = 1;
+
+	if (a.u == 1)
+    {
+        return Endianness::Little;
+    }
+	return Endianness::Big;
 }
 
-inline unsigned int hton32(unsigned int v) {
-    return htonl(v);
+template<typename T>
+inline T get_swap_endian(const T& val)
+{
+    union endian
+    {
+        T data;
+        u8 bytes[sizeof(T)];
+    };
+
+    endian& src = static_cast<endian&> val;
+    endian dst;
+    int t_size = static_cast<int>(sizeof(T));
+    for(int i = 0; i < t_size; i++)
+    {
+        dst.bytes[i] = src.bytes[t_size - i - 1];
+    }
+    return dst.data;
 }
 
-inline unsigned short ntoh16(unsigned short v) {
-    return ntohs(v);
+template<typename T>
+inline void swap_endian(const T& val)
+{
+    union endian
+    {
+        T data;
+        u8 bytes[sizeof(T)];
+    };
+
+    endian& src = static_cast<endian&> val;
+    int t_size = static_cast<int>(sizeof(T));
+    for(int i = 0; i < t_size / 2; i++)
+    {
+        u8 &a = src.bytes[i];
+        u8 &b = src.bytes[t_size - i - 1];
+
+        u8 t = a;
+        a = b;
+        b = t;
+    }
 }
 
-inline unsigned int ntoh32(unsigned int v) {
-    return ntohl(v);
+template <typename T>
+inline void swap_endian(T *a, int numItems)
+{
+	for (int i = 0; i < numItems; i++)
+    {
+        swap_endian(a[i]);
+    }
 }
 
-inline unsigned long long hton64(unsigned long long v) {
-    return htonll(v);
+inline constexpr u16 swap_endian16(u16 val)
+{
+	u16 u0 = val & 0x00FF;
+	u16 u1 = (val >> 8) & 0x00FF;
+	return (u16(u1) | (u16(u0) << 8));
 }
 
-inline unsigned long long ntoh64(unsigned long long v) {
-    return ntohll(v);
+inline constexpr u32 swap_endian32(u32 val)
+{
+	u32 u0 = val & 0x000000FF;
+	u32 u1 = (val >> 8) & 0x000000FF;
+	u32 u2 = (val >> 16) & 0x000000FF;
+	u32 u3 = (val >> 24) & 0x000000FF;
+	return (u32(u3) | (u32(u2) << 8) | (u32(u1) << 16) | (u32(u0) << 24));
 }
 
-#else /* linux, mac */
+inline constexpr u64 swap_endian64(u64 val)
+{
+	u64 u0 = val & 0x000000FF;
+	u64 u1 = (val >> 8) & 0x000000FF;
+	u64 u2 = (val >> 16) & 0x000000FF;
+	u64 u3 = (val >> 24) & 0x000000FF;
+    u64 u4 = (val >> 32) & 0x000000FF;
+    u64 u5 = (val >> 40) & 0x000000FF;
+    u64 u6 = (val >> 48) & 0x000000FF;
+    u64 u7 = (val >> 56) & 0x000000FF;
 
-#include <stdint.h>
-
-#if defined(__APPLE__)
-#include <libkern/OSByteOrder.h>
-
-#define htobe16 OSSwapHostToBigInt16
-#define htobe32 OSSwapHostToBigInt32
-#define htobe64 OSSwapHostToBigInt64
-#define be16toh OSSwapBigToHostInt16
-#define be32toh OSSwapBigToHostInt32
-#define be64toh OSSwapBigToHostInt64
-
-#elif defined(__linux__)
-#include <endian.h>
-#else
-
-#include <sys/endian.h>
-
-#endif
-
-inline uint16_t hton16(uint16_t v) {
-    return htobe16(v);
+	return (
+        u64(u7) | (u64(u6) << 8) | (u64(u5) << 16) | (u64(u4) << 24) | 
+        u64(u3 << 32) | (u64(u2) << 40) | (u64(u1) << 48) | (u64(u0) << 56)
+    );
 }
 
-inline uint32_t hton32(uint32_t v) {
-    return htobe32(v);
+template <typename T>
+inline T ntoh(T val)
+{
+	if (get_endianness() == Endianness::Big)
+    {
+        return val;
+    }
+	return get_swap_endian(val);
 }
 
-inline uint64_t hton64(uint64_t v) {
-    return htobe64(v);
+template <typename T>
+inline T hton(T val)
+{
+	return ntoh(val);
 }
-
-inline uint16_t ntoh16(uint16_t v) {
-    return be16toh(v);
-}
-
-inline uint32_t ntoh32(uint32_t v) {
-    return be32toh(v);
-}
-
-inline uint64_t ntoh64(uint64_t v) {
-    return be64toh(v);
-}
-
-#endif
