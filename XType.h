@@ -31,20 +31,22 @@ using uint64 = uint64_t;
 using byte = uint8_t;
 
 #ifdef _WIN32
-    using char32 = char32_t;
+    using char32 = uint32_t;
     using char16 = wchar_t;
     using char8 = uint8_t;
-    using syschar = wchar_t;
+    using SysChar = wchar_t;
 #else
 #   ifdef __LINUX__ || __APPLE__
-        using char16 = char16_t;
-        using char32 = char32_t;
+        using char32 = uint32_t;        
+        using char16 = uint16_t;
         using char8 = uint8_t;
-        using syschar = uint8_t;
+        using SysChar = uint8_t;
 #   endif
 #endif
 
-#define cast_to_int(v) static_cast<int>(v)
+#define Int(v) static_cast<int>(v)
+#define Float(v) static_cast<float>(v)
+#define Double(v) static_cast<double>(v)
 
 template<typename T>
 inline bool is_in(const T& x, const T& a, const T& b)
