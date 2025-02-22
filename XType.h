@@ -47,9 +47,19 @@ using byte = uint8_t;
 #define Int(v) static_cast<int>(v)
 #define Float(v) static_cast<float>(v)
 #define Double(v) static_cast<double>(v)
+#define U8(v) static_cast<u8>(v)
+#define U16(v) static_cast<u16>(v)
+#define U32(v) static_cast<u32>(v)
+#define U64(v) static_cast<u64>(v)
 
 template<typename T>
-inline bool is_in(const T& x, const T& a, const T& b)
+inline bool IsIn(const T& x, const T& a, const T& b)
 {
     return a <= x && x <= b;
+}
+
+template<typename T>
+inline bool IsNotIn(const T& x, const T& a, const T& b)
+{
+    return a > x || x > b;
 }
