@@ -267,23 +267,23 @@
 #endif
 
 #ifndef X_ARCH_STRING_1
-#   define X_ARCH_STRING_1    ""
+#   define X_ARCH_STRING_1    ".."
 #endif
 
 #ifndef X_ARCH_STRING_2
-#   define X_ARCH_STRING_2    ""
+#   define X_ARCH_STRING_2    ".."
 #endif
 
 #ifndef X_ARCH_STRING_3
-#   define X_ARCH_STRING_3    ""
+#   define X_ARCH_STRING_3    ".."
 #endif
 
 #ifndef X_ARCH_STRING_4
-#   define X_ARCH_STRING_4    ""
+#   define X_ARCH_STRING_4    ".."
 #endif
 
 #ifndef X_ARCH_STRING_5
-#   define X_ARCH_STRING_5    ""
+#   define X_ARCH_STRING_5    ".."
 #endif
 
 // version string

@@ -14,13 +14,13 @@ namespace Mem
     }
 
     template <typename T>
-    T *xalloc(size_t num)
+    T *Alloc(size_t num)
     {
         return reinterpret_cast<T *>(malloc(sizeof(T) * num));
     }
 
     template <typename T>
-    void xfree(T *p)
+    void Free(T *p)
     {
         if (p == nullptr)
         {
@@ -29,7 +29,7 @@ namespace Mem
         free(p);
     }
 
-    void wipe(void *p, size_t size)
+    void Wipe(void *p, size_t size)
     {
         if (p && size)
         {

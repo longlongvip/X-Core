@@ -14,8 +14,8 @@ constexpr int CPlusPlus20 = 202002;
 constexpr int CPlusPlus23 = 202302;
 
 #if defined(_MSC_VER)
-#   define X_ASSEMBLER_IS_MASM
-#   define X_COMPILER_IS_MSVC (1)
+#   define X_ASSEMBLER_MASM
+#   define X_COMPILER_MSVC (1)
 #   define X_COMPILER_VERSION_BT(major, minor)     (_MSC_VER > ((major) * 100 + (minor)))
 #   define X_COMPILER_VERSION_BE(major, minor)     (_MSC_VER >= ((major) * 100 + (minor)))
 #   define X_COMPILER_VERSION_EQ(major, minor)     (_MSC_VER == ((major) * 100 + (minor)))
@@ -103,7 +103,9 @@ constexpr int CPlusPlus23 = 202302;
 #   pragma warning(disable:4996) // 你的代码使用标记为“已弃用”的函数、类成员、变量或 typedef
 #   pragma warning(disable:4359) // 为类型指定的对齐小于其数据成员之一的类型的对齐
 #   pragma warning(disable:4838) // 
-
+#elif defined(__GNUC__)
+#   define X_COMPILER_GCC (1)
+#   
 #else
 #   define X_COMPILER_STRING                       "unknown compiler"
 #   define X_COMPILER_VERSION_STRING               "unknown compiler version"

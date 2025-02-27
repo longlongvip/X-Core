@@ -1,6 +1,6 @@
 #pragma once
 
-#include "XDef.h"
+#include "XTypeDef.h"
 
 // 主版本
 #define X_VERSION_MAJOR (1)
