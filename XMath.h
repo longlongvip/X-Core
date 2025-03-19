@@ -60,6 +60,46 @@ inline T iDegToRad(T angle)
     return angle;
 }
 
+/* 平方根算法 */
+template <typename T>
+T Sqrt(T x)
+{
+    return std::sqrt(x);
+}
+
+template <typename T>
+T iSqrt(T x)
+{
+    x = std::sqrt(x)
+    return x;
+}
+
+template <class T>
+inline T Sin(const T x)
+{
+    return std::sin(x);
+}
+
+template <class T>
+inline T iSin(const T x)
+{
+    x = std::sin(x)
+    return x;
+}
+
+template <class T>
+inline T Cos(const T x)
+{
+    return std::cos(x);
+}
+
+template <class T>
+inline T iCos(const T x)
+{
+    x = std::cos(x);
+    return x;
+}
+
 template <class T>
 inline T Square(const T x)
 {
@@ -111,7 +151,7 @@ T Lcm(T a, T b)
 
 /* 平方根算法 */
 template <typename T>
-T Sqrt(T n)
+T FastSqrt(T n)
 {
     if (n <= 1)
     {
