@@ -54,11 +54,12 @@ using byte = uint8_t;
 #define Int(v) static_cast<int>(v)
 #define Float(v) static_cast<float>(v)
 #define Double(v) static_cast<double>(v)
-#define U8(v) static_
+#define U8(v) static_cast<u8>(v)
 #define U16(v) static_cast<u16>(v)
 #define U32(v) static_cast<u32>(v)
 #define U64(v) static_cast<u64>(v)
 #define SizeT(v) static_cast<size_t>(v)
+#define Swap(x, y) std::swap((x), (y))
 
 template<typename T>
 inline bool IsIn(const T& x, const T& a, const T& b)
@@ -447,7 +448,7 @@ T& iClamMax(T& t, T m)
 template <typename T>
 inline double Ratio(T h, T w)
 {
-    return h * 1.0 / w;
+    return h * static_cast<T>(1) / w;
 }
 
 /* 处理 2 和 bit 移动的函数*/

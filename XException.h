@@ -76,5 +76,4 @@ public:
         is_show_ = is_show;
     }
 
-}
-;
+};

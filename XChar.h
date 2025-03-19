@@ -2,7 +2,7 @@
 
 #include <cctype>
 
-#include "XType.h"
+#include "XTypeDef.h"
 
 inline bool is_ascii(unsigned char c)
 {
@@ -128,7 +128,7 @@ inline int digit2num(char c)
 
 inline char num2digit(int c)
 {
-    if(is_in(c, 0, 9))
+    if(IsIn(c, 0, 9))
     {
         return '0' + c;
     }
@@ -137,11 +137,11 @@ inline char num2digit(int c)
 
 inline char num2hex(int c, bool upper_case=true)
 {
-    if(is_in(c, 0, 9))
+    if(IsIn(c, 0, 9))
     {
         return '0' + c;
     }
-    if(is_in(c, 10, 15))
+    if(IsIn(c, 10, 15))
     {
         if(upper_case)
         {
@@ -157,15 +157,15 @@ inline char num2hex(int c, bool upper_case=true)
 
 inline int hex2num(char c)
 {
-    if(is_in(c, '0', '9'))
+    if(IsIn(c, '0', '9'))
     {
         return c - '0';
     }
-    if(is_in(c, 'a', 'f'))
+    if(IsIn(c, 'a', 'f'))
     {
         return c - 'a' + 10;
     }
-    if(is_in(c, 'A', 'F'))
+    if(IsIn(c, 'A', 'F'))
     {
         return c - 'A' + 10;
     }
