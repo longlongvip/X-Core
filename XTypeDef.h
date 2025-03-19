@@ -383,9 +383,21 @@ inline T Min3(T a, T b, T c)
 }
 
 template <typename T>
+inline int Min3Index(T a, T b, T c)
+{
+    return (a > b) ? ((a > c) ? 0 : 2) : ((b > c) ? 1 : 2);
+}
+
+template <typename T>
 inline T Max3(T a, T b, T c)
 {
     return std::max(std::max(a, b), c);
+}
+
+template <typename T>
+inline int Max3Index(T a, T b, T c)
+{
+    return (a < b) ? ((a < c) ? 0 : 2) : ((b < c) ? 1 : 2);
 }
 
 template <typename T>
