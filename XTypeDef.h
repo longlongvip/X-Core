@@ -51,6 +51,9 @@ using byte = uint8_t;
 #   endif
 #endif
 
+using f32 = float;
+using f64 = double;
+
 #define Int(v) static_cast<int>(v)
 #define Float(v) static_cast<float>(v)
 #define Double(v) static_cast<double>(v)

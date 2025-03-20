@@ -1,13 +1,13 @@
 #pragma once
 
-#include "core.h"
-#include "../XTypeDef.h"
+#include "Core.h"
 
 struct OSVersion
 {
-    u32 major;
-    u32 minor;
-    u32 build;
+    char name[16];
+    unsigned int major;
+    unsigned int minor;
+    unsigned int build;
 };
 
 static OSVersion GetOSVersion()
@@ -39,5 +39,10 @@ static OSVersion GetOSVersion()
     };
 
     WindowsVersion windows_version = GetWindowsVersion();
-    return { windows_version.dwMajorVersion, windows_version.dwMajorVersion, windows_version.dwBuildNumber };
+    OSVersion res;
+    strncpy(res.name, "Windows", 16);
+    res.major = windows_version.dwMajorVersion;
+    res.minor = windows_version.dwMajorVersion;
+    res.build = windows_version.dwBuildNumber;
+    return res;
 }
