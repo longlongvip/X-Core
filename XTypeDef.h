@@ -157,7 +157,6 @@ inline int SafeSizeToInt(const size_t v)
 
 // Debug 宏定义
 #ifdef _DEBUG
-#   define X_DEBUG_DECL, char const* func
 #   define x_func             __FUNCTION__
 #   define x_file             __FILE__
 #   define x_line             __LINE__
@@ -172,9 +171,9 @@ inline int SafeSizeToInt(const size_t v)
 #   define x_thiscall         __thiscall
 #   define x_packed__
 #   define x_aligned(a)     __declspec(align(a))
-#   define x_debug_decl  , char const* func_, size_t line_, char const* file_
-#   define x_debug_vals  , x_func, x_line, x_file
-#   define x_debug_args  , func_, line_, file_
+#   define x_debug_decl char const* func_, size_t line_, char const* file_
+#   define x_debug_vals x_func, x_line, x_file
+#   define x_debug_args func_, line_, file_
 #else
 #   define x_debug_decl
 #   define x_debug_vals

@@ -15,7 +15,7 @@ public:
     }
     constexpr bool isValid() const
     {
-        return ID::IsValidID(id_);
+        return ID::IsValid(id_);
     }
 
     void setFullscreen(bool is_fullscreen) const;
@@ -31,5 +31,5 @@ public:
     void close();
 #endif // __linux__
 private:
-    WindowId id_{ID::InvalidID};
+    WindowId id_{ID::Invalid};
 };

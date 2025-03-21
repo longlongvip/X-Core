@@ -7,7 +7,7 @@ namespace ID
 {
     using IDType = u32;
 
-    constexpr IDType InvalidID{IDType(-1)};
+    constexpr IDType Invalid{IDType(-1)};
     constexpr u32 MinDeletedElements{1024};
 
     namespace detail
@@ -25,10 +25,10 @@ namespace ID
     static_assert((sizeof(IDType) - sizeof(GenIDType)) > 0);
 
     // 检查ID是否有效
-    constexpr bool IsValidID(IDType id)
+    constexpr bool IsValid(IDType id)
     {
 
-        return id != InvalidID;
+        return id != Invalid;
     }
 
     // 提取索引部分
