@@ -2,91 +2,66 @@
 
 #include <cstdint>
 
-constexpr uint32_t FirstByteMask = 0xFF000000;
-constexpr uint32_t SecondByteMask = 0x00FF0000;
-constexpr uint32_t ThirdByteMask = 0x0000FF00;
-constexpr uint32_t FourthByteMask = 0x000000FF;
+inline void bless_no_bugs() {}
 
-inline void bless_no_bugs() { }
-
-template<typename To, typename From>
-constexpr To cast(From&& f) 
+template <typename To, typename From>
+constexpr To Cast(From &&f)
 {
-    return (To) std::forward<From>(f);
+    return (To)std::forward<From>(f);
 }
 
-template<typename T>
-inline int cast_int(T v)
+template <typename T>
+inline int CastInt(T v)
 {
-    return cast<int>(v);
+    return Cast<int>(v);
 }
 
-template<typename T>
-inline int64_t cast_i64(T v)
+template <typename T>
+inline int64_t CastI64(T v)
 {
-    return cast<int64_t>(v);
+    return Cast<int64_t>(v);
 }
 
-template<typename T>
-inline uint8_t cast_u8(T v)
+template <typename T>
+inline uint8_t CastU8(T v)
 {
-    return cast<uint8_t>(v);
+    return Cast<uint8_t>(v);
 }
 
-template<typename T>
-inline uint16_t cast_u16(T v)
+template <typename T>
+inline uint16_t CastU16(T v)
 {
-    return cast<uint16_t>(v);
+    return Cast<uint16_t>(v);
 }
 
-template<typename T>
-inline uint32_t cast_u32(T v)
+template <typename T>
+inline uint32_t CastU32(T v)
 {
-    return cast<uint32_t>(v);
+    return Cast<uint32_t>(v);
 }
 
-template<typename T>
-inline uint64_t cast_u64(T v)
+template <typename T>
+inline uint64_t CastU64(T v)
 {
-    return cast<uint64_t>(v);
+    return Cast<uint64_t>(v);
 }
 
-template<typename T>
-inline float cast_float(T v)
+template <typename T>
+inline float CastFloat(T v)
 {
-    return cast<float>(v);
+    return Cast<float>(v);
 }
 
-template<typename T>
-inline double cast_double(T v)
+template <typename T>
+inline double CastDouble(T v)
 {
-    return cast<double>(v);
-}
-
-template<typename T, typename From>
-inline T get_byte(From f, int n)
-{
-    uint32_t f_u32 = cast_u32(f);
-    if(n == 1)
-    {
-        return cast<T>(f_u32 & FirstByteMask);
-    } else if(n == 2)
-    {
-        return cast<T>(f_u32 & SecondByteMask);
-    }else if(n == 3)
-    {
-        return cast<T>(f_u32 & ThirdByteMask);
-    }else if(n == 4)
-    {
-        return cast<T>(f_u32 & FourthByteMask);
-    }
-    return cast<T>(0);
+    return Cast<double>(v);
 }
 
 #if defined(X_COMPILER_IS_GCC) && X_COMPILER_VERSION_BE(4, 1)
-#   define x_offsetof(s, m) (size_t)__builtin_offsetof(s, m)
+#define x_offsetof(s, m) (size_t)__builtin_offsetof(s, m)
 #else
-#   define x_offsetof(s, m) (size_t)&(((s const*)0)->m)
+#define x_offsetof(s, m) (size_t)&(((s const *)0)->m)
 #endif
 
 // align2
@@ -102,16 +77,16 @@ inline T get_byte(From f, int n)
 #define X_Align(x, b) (((size_t)(x) + ((size_t)(b) - 1)) & ~((size_t)(b) - 1))
 
 // align u32
-#define X_Align_u32(x, b) (((uint32)(x) + ((uint32)(b) - 1)) & ~((uint32)(b) - 1))
+#define X_AlignU32(x, b) (((uint32)(x) + ((uint32)(b) - 1)) & ~((uint32)(b) - 1))
 
 // align u64
-#define X_Align_u64(x, b) (((uint64)(x) + ((uint64)(b) - 1)) & ~((uint64)(b) - 1))
+#define X_AlignU64(x, b) (((uint64)(x) + ((uint64)(b) - 1)) & ~((uint64)(b) - 1))
 
 #define X_ArraySize(x) ((sizeof(x) / sizeof(x[0])))
 
 /*
 // align by pow2
-#define x_align_pow2(x) (((x) > 1)? (x_ispow2(x)? (x) : ((size_t)1 << (32 - x_bits_cl0_u32_be((uint32)(x))))) : 1)
+#define x_align_pow2(x) (((x) > 1)? (x_ispow2(x)? (x) : ((size_t)1 << (32 - x_bits_cl0U32_be((uint32)(x))))) : 1)
 
 // container of
 #define x_container_of(s, m, p) ((s*)(((byte*)(p)) - x_offsetof(s, m)))

@@ -61,6 +61,7 @@ using f64 = double;
 #define U16(v) static_cast<u16>(v)
 #define U32(v) static_cast<u32>(v)
 #define U64(v) static_cast<u64>(v)
+#define Char16(v) static_cast<char16>(v)
 #define SizeT(v) static_cast<size_t>(v)
 #define Swap(x, y) std::swap((x), (y))
 
@@ -677,6 +678,21 @@ template <typename T>
 inline T hton(T val)
 {
 	return ntoh(val);
+}
+
+template <typename T>
+void u32_to_arr(u8* a, T* n)
+{
+    memcpy(a, n, sizof(T));
+}
+
+// idx > 0
+template <typename T>
+void getu8(T* n, int idx)
+{
+    u8 a[sizeof(T)];
+    memcpy(a, n, sizof(T));
+    return a[idx - 1];
 }
 
 // 全局锁
