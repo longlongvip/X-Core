@@ -29,6 +29,12 @@ namespace Mem
         free(p);
     }
 
+    template <typename T>
+    void Clear(T *p, size_t size)
+    {
+        memset(p, 0, size);
+    }
+
     void Wipe(void *p, size_t size)
     {
         if (p && size)

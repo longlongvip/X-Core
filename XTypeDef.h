@@ -460,6 +460,15 @@ T& iClamMax(T& t, T m)
     return t;
 }
 
+/* n-分子 d-分母 */
+template <typename T>
+T MulDiv(T v, T n, T d)
+{
+    T q = v / d; // 商
+    T r = v % d; // 余数
+    return q * n + r * n / d;
+}
+
 template <typename T>
 inline double Ratio(T h, T w)
 {
