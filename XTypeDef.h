@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <climits>
 #include <utility>
+#include <type_traits>
 
 #include "XInternal.h"
 
@@ -64,6 +65,30 @@ using f64 = double;
 #define Char16(v) static_cast<char16>(v)
 #define SizeT(v) static_cast<size_t>(v)
 #define Swap(x, y) std::swap((x), (y))
+
+template <typename T>
+constexpr auto& DeConst(T& v)
+{
+    return const_cast<std::remove_const_t<T>&>(v);
+}
+
+template <typename T>
+constexpr auto* DeConst(T* v)
+{
+    return const_cast<std::remove_const_t<T>*>(v);
+}
+
+template <typename T>
+constexpr const std::remove_reference_t<T>& Const(T& v)
+{
+    return static_cast<const std::remove_reference_t<T>&>(v);
+}
+
+template <typename T>
+constexpr const T* Const(T* v)
+{
+    return static_cast<const T*>(v);
+}
 
 template<typename T>
 inline bool IsIn(const T& x, const T& a, const T& b)
