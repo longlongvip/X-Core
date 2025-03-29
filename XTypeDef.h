@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstdlib>
 #include <climits>
 #include <utility>
 #include <type_traits>
@@ -604,24 +605,91 @@ constexpr T get_num_bits(T x)
 #   define BSwap32(x) _byteswap_ulong(x)
 #   define BSwap64(x) _byteswap_uint64(x)
 #else
-static inline u16 BSwap16(u16 x)
+_MUST_INLINE_ u16 BSwap16(u16 x)
 {
-	return (x >> 8) | (x << 8);
+    return ((x & 0x00FF) << 8) | ((x & 0xFF00) >> 8);
 }
 
-static inline u32 BSwap32(u32 x)
- {
-	return ((x << 24) | ((x << 8) & 0x00FF0000) | ((x >> 8) & 0x0000FF00) | (x >> 24));
+_MUST_INLINE_ u32 BSwap32(u32 x)
+{
+    return ((x & 0x000000FF) << 24) | ((x & 0x0000FF00) << 8) | ((x & 0x00FF0000) >> 8) | ((x & 0xFF000000) >> 24);
 }
 
-static inline u64 BSwap64(u64 x)
+_MUST_INLINE_ u64 BSwap64(u64 x)
 {
-	x = (x & 0x00000000FFFFFFFF) << 32 | (x & 0xFFFFFFFF00000000) >> 32;
-	x = (x & 0x0000FFFF0000FFFF) << 16 | (x & 0xFFFF0000FFFF0000) >> 16;
-	x = (x & 0x00FF00FF00FF00FF) << 8 | (x & 0xFF00FF00FF00FF00) >> 8;
-	return x;
+    return ((x & 0x00000000000000FF) << 56) | ((x & 0x000000000000FF00) << 40) |
+    ((x & 0x0000000000FF0000) << 24) | ((x & 0x00000000FF000000) << 8) |
+    ((x & 0x000000FF00000000) >> 8) | ((x & 0x0000FF0000000000) >> 24) |
+    ((x & 0x00FF000000000000) >> 40) | ((x & 0xFF00000000000000) >> 56);
 }
 #endif
+
+// 字节相关
+int BytesOf16(u16 x)
+{
+    if(x < 0x100)
+    {
+        return 1;
+    } else if(x <= 0xFFFF)
+    {
+        return 2;
+    }
+    return -1;
+}
+
+int BytesOf32(u32 x)
+{
+    if(x < 0x100)
+    {
+        return 1;
+    } else if(x <= 0x10000)
+    {
+        return 2;
+    } else if(x <= 0x1000000)
+    {
+        return 3;
+    }
+    else if(x <= 0xFFFFFFFF)
+    {
+        return 4;
+    }
+    return -1;
+}
+
+int BytesOf64(u64 x)
+{
+    if(x < 0x100)
+    {
+        return 1;
+    } else if(x <= 0x10000)
+    {
+        return 2;
+    } else if(x <= 0x1000000)
+    {
+        return 3;
+    }
+    else if(x < 0x100000000)
+    {
+        return 4;
+    }
+    else if(x < 0x10000000000)
+    {
+        return 5;
+    }
+    else if(x < 0x1000000000000)
+    {
+        return 6;
+    }
+    else if(x < 0x100000000000000)
+    {
+        return 7;
+    }
+    else if(x < 0xFFFFFFFFFFFFFFFF)
+    {
+        return 8;
+    }
+    return -1;
+}
 
 enum Endianness
 {
