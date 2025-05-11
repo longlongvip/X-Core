@@ -1,31 +1,10 @@
 #pragma once
 
-#ifndef WIN32_LEAN_AND_MEAN
-    #define WIN32_LEAN_AND_MEAN
-#endif
+#include "MinWindows.h"
 
-#include <Windows.h>
+#include <ShellApi.h>
 
-namespace Platform
-{
-    using WndProc = LRESULT (*)(HWND, UINT, WPARAM, LPARAM);
-    using WndHandle = HWND;
-
-    using SysChar = wchar_t;
-
-    struct Window_Init_Info
-    {
-        WndProc callback{nullptr};
-        WndHandle parent{nullptr};
-        const SysChar *caption{nullptr};
-        int left{0};
-        int top{0};
-        int width{800};
-        int height{450};
-    };
-}
-
-int AnsiToWide(wchar_t *out, const char *in)
+inline int AnsiToWide(wchar_t *out, const char *in)
 {
     if (out == nullptr)
     {
@@ -48,7 +27,7 @@ int AnsiToWide(wchar_t *out, const char *in)
     return res;
 }
 
-int Utf8ToWide(wchar_t *out, const char *in)
+inline int Utf8ToWide(wchar_t *out, const char *in)
 {
     if (out == nullptr)
     {
@@ -71,7 +50,7 @@ int Utf8ToWide(wchar_t *out, const char *in)
     return res;
 }
 
-int WideToAnsi(char *out, const wchar_t *in)
+inline int WideToAnsi(char *out, const wchar_t *in)
 {
     if (out == nullptr)
     {
@@ -105,7 +84,7 @@ int WideToAnsi(char *out, const wchar_t *in)
     return res; // 返回字节数(包括NULL终止符)
 }
 
-int WideToUtf8(char *out, const wchar_t *in)
+inline int WideToUtf8(char *out, const wchar_t *in)
 {
     if (out == nullptr)
     {

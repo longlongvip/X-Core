@@ -1,5 +1,7 @@
+#include "Internal/XOS.h"
+
 #if defined X_PLATFORM_WINDOWS
     #include "Windows/Core.h"
-#else
-    
+#elif defined X_PLATFORM_LINUX
+    #include "Linux/Core.h"
 #endif

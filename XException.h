@@ -3,7 +3,6 @@
 #include <stdexcept>
 #include <string>
 #include <array>
-#include "XTypeDef.h"
 
 class Exception : public std::runtime_error
 {
@@ -75,5 +74,4 @@ public:
     {
         is_show_ = is_show;
     }
-
 };

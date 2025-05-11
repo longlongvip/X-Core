@@ -31,21 +31,21 @@ bool AreEqualApprox(T a, T b, T epsilon = std::numeric_limits<T>::epsilon())
 }
 
 template <typename T>
-inline T RadToDeg(T rad)
+inline T ToDeg(T rad)
 {
     // 日常使用 rad 必须是 float 或 double 类型
     return rad * static_cast<T>(Inv_Pi_180);
 }
 
 template <typename T>
-inline T DegToRad(T deg)
+inline T ToRad(T deg)
 {
     // 日常使用 deg 必须是 float 或 double 类型
     return static_cast<T>(Pi_180) * deg;
 }
 
 template <typename T>
-inline T iRadToDeg(T angle)
+inline T iToDeg(T angle)
 {
     // 日常使用 angle 必须是 float 或 double 类型
     angle = angle * static_cast<T>(Inv_Pi_180)
@@ -53,7 +53,7 @@ inline T iRadToDeg(T angle)
 }
 
 template <typename T>
-inline T iDegToRad(T angle)
+inline T iToRad(T angle)
 {
     // 日常使用 angle 必须是 float 或 double 类型
     angle = static_cast<T>(Pi_180) * angle;
@@ -169,7 +169,7 @@ T FastSqrt(T n)
 
 /* 是不是偶数 */
 template <typename T>
-inline bool IsEvent(T x)
+inline bool IsEven(T x)
 {
     return (x & 1) == 0;
 }

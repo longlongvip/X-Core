@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <type_traits>
 
 inline void bless_no_bugs() {}
 
@@ -56,6 +57,25 @@ template <typename T>
 inline double CastDouble(T v)
 {
     return Cast<double>(v);
+}
+
+template <typename T, typename From>
+inline constexpr T bitCast(const From &_from)
+{
+    static_assert(sizeof(T) == sizeof(From), "bx::bitCast failed! T and From must be the same size.");
+    static_assert(isTriviallyCopyable<From>(), "bx::bitCast failed! From must be trivially copyable.");
+    static_assert(isTriviallyCopyable<T>(), "bx::bitCast failed! T must be trivially copyable.");
+    static_assert(isTriviallyConstructible<T>(), "bx::bitCast failed! T must be trivially constructible.");
+
+    return __builtin_bit_cast(T, _from);
+}
+
+template <typename T, typename From>
+inline T narrowCast(const From &_from /*, Location _location*/)
+{
+    T to = static_cast<T>(_from);
+    //X_ASSERT_LOC(_location, static_cast<From>(to) == _from, "bx::narrowCast failed! Value is truncated!");
+    return to;
 }
 
 #if defined(X_COMPILER_IS_GCC) && X_COMPILER_VERSION_BE(4, 1)

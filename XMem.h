@@ -1,14 +1,11 @@
 #pragma once
 
-#include <type_traits>
-#include <functional>
 #include <memory>
-#include <WinBase.h>
 
 namespace Mem
 {
     template <typename T, typename... Arg>
-    std::unique_ptr<T> make_unique(Arg &&...args)
+    std::unique_ptr<T> MakeUnique(Arg &&...args)
     {
         return std::unique_ptr<T>(new T(std::forward<Arg>(args)...));
     }
@@ -35,14 +32,19 @@ namespace Mem
         memset(p, 0, size);
     }
 
-    void Wipe(void *p, size_t size)
+    template <typename T>
+    void Zero(T *p, size_t size)
     {
-        if (p && size)
-        {
-            SecureZeroMemory(p, size);
-        }
+        memset(p, 0, size);
     }
 
+    template <typename T>
+    void Copy(T *dest, T *src, size_t size)
+    {
+        memcmp(dest, src, size);
+    }
+
+    /** 不要用
     template <typename T, typename... U>
     size_t getFuncAddress(std::function<T(U...)> f)
     {
@@ -50,4 +52,5 @@ namespace Mem
             fnType **pfn = f.template target<fnType *>();
         return static_cast<size_t>(*pfn);
     }
+    */
 }
