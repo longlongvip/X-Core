@@ -18,13 +18,11 @@
 #endif
 
 #ifdef __cplusplus
-#   define X_EXTERN_C extern "C"
-#   define X_EXTERN_C_ENTER extern "C" {
-#   define X_EXTERN_C_LEAVE }
+#   define EXTERN_C_ENTER extern "C" {
+#   define EXTERN_C_LEAVE }
 #else
-#   define X_EXTERN_C
-#   define X_EXTERN_C_ENTER
-#   define X_EXTERN_C_LEAVE
+#   define EXTERN_C_ENTER
+#   define EXTERN_C_LEAVE
 #endif
 
 // Debug 宏定义
@@ -54,7 +52,9 @@
 
 #define X_TypeRef(object)                              struct x_##object##_dummy_t{x_int_t dummy;} const* x_##object##_ref_t
 
- // 宏
+// 宏
+#define X_ArraySize(a)                                (sizeof(a) / /sizeof(a[0]))
+
 #define X_Wrap(x)                                     x
 #define X_String(x)                                   #x
 #define X_String_Ex(x)                                X_String(x)
@@ -173,3 +173,15 @@ char (&CountOfRequireArrayArgumentT(const T (&)[NumT]) )[NumT];
 		}																							\
 	} while (0)
 
+// 简单的 Debug 宏
+
+#ifdef _DEBUG
+#   define SAssert(x) \
+    if(!(x)) \
+    {\
+    	printf(__FILE__ "@%d: `" #x "` - Failed | Compilation: " __DATE__ " " __TIME__ "\n", __LINE__); \
+    	return(-1); \
+	}
+#endif
+
+#define ForceExit exit(0)

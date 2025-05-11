@@ -1,6 +1,6 @@
 #pragma once
 
-#include "XTypeDef.h"
+#include "Types/BaseType.h"
 #include <cassert>
 
 namespace ID
@@ -18,8 +18,7 @@ namespace ID
         constexpr IDType gen_mask{(IDType(1) << gen_bits) - 1}; // 生成掩码
     }
 
-    using GenIDType = std::conditional_t<detail::gen_bits <= 16,
-                                         std::conditional_t<detail::gen_bits <= 8, u8, u16>, u32>;
+    using GenIDType = std::conditional_t<detail::gen_bits <= 16, std::conditional_t<detail::gen_bits <= 8, u8, u16>, u32>;
 
     static_assert(sizeof(GenIDType) * 8 >= detail::gen_bits);
     static_assert((sizeof(IDType) - sizeof(GenIDType)) > 0);
@@ -66,14 +65,14 @@ namespace ID
         };
     } // detail namespace
 
-#define DEFINE_TYPED_ID(name)              \
-    struct name final : ID::detail::IDBase \
-    {                                      \
+#define DEFINE_TYPED_ID(name)                  \
+    struct name final : ID::detail::IDBase     \
+    {                                          \
         constexpr explicit name(ID::IDType id) \
-            : IDBase{id} {}                \
-        constexpr name() : IDBase{0} {}    \
+            : IDBase{id} {}                    \
+        constexpr name() : IDBase{0} {}        \
     };
 #else
-#define DEFINE_TYPED_ID(name) using name = ID::IDType;
+#   define DEFINE_TYPED_ID(name) using name = ID::IDType;
 #endif
 }
